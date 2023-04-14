@@ -1,10 +1,22 @@
 package util
 
-type JSONResult struct {
-	// 业务码
-    Code    int          `json:"code" `
-	// 响应信息
-    Message string       `json:"message"`
-	// 响应数据
-    Data    interface{}  `json:"data"`
+type Response struct {
+    Code int         `json:"code"`
+    Msg  string      `json:"msg"`
+    Data interface{} `json:"data"`
+}
+
+func MakeResponse(code int, msg string, data interface{}) Response {
+	if code == 0 {
+		code = 0
+	}
+	if msg == "" {
+		msg = "操作成功"
+	}
+
+    return Response{
+        Code: code,
+        Msg:  msg,
+        Data: data,
+    }
 }

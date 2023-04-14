@@ -33,7 +33,7 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/util.JSONResult"
+                            "$ref": "#/definitions/util.Response"
                         }
                     }
                 }
@@ -41,18 +41,14 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "util.JSONResult": {
+        "util.Response": {
             "type": "object",
             "properties": {
                 "code": {
-                    "description": "业务码",
                     "type": "integer"
                 },
-                "data": {
-                    "description": "响应数据"
-                },
-                "message": {
-                    "description": "响应信息",
+                "data": {},
+                "msg": {
                     "type": "string"
                 }
             }

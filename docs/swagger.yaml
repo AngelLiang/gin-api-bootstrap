@@ -1,13 +1,10 @@
 definitions:
-  util.JSONResult:
+  util.Response:
     properties:
       code:
-        description: 业务码
         type: integer
-      data:
-        description: 响应数据
-      message:
-        description: 响应信息
+      data: {}
+      msg:
         type: string
     type: object
 info:
@@ -24,7 +21,7 @@ paths:
         "200":
           description: OK
           schema:
-            $ref: '#/definitions/util.JSONResult'
+            $ref: '#/definitions/util.Response'
       summary: ping
       tags:
       - 通用

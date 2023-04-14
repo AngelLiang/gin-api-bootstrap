@@ -3,6 +3,8 @@ package api
 import (
 	"net/http"
 	"github.com/gin-gonic/gin" // 导入 gin 框架
+
+	"gin_api_bootstrap/util"
 )
 
 // @Summary ping
@@ -12,11 +14,8 @@ import (
 // @Router /api/v1/ping [get]
 // @Accept json
 // @Produce json
-// @Success 200 {object} util.JSONResult
+// @Success 200 {object} util.Response
 func Ping(c *gin.Context) {
-	c.JSON(http.StatusOK, gin.H{
-		"code": 0,
-		"message":  "请求成功",
-		"data": gin.H{},
-	})
+	resp := util.MakeResponse(0, "操作成功", gin.H{})
+	c.JSON(http.StatusOK, resp)
 }
