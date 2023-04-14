@@ -10,6 +10,23 @@ definitions:
 info:
   contact: {}
 paths:
+  /api/v1/checkApikey:
+    get:
+      consumes:
+      - application/json
+      description: 检查Apikey
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/util.Response'
+      security:
+      - ApiKeyAuth: []
+      summary: 检查Apikey
+      tags:
+      - 通用
   /api/v1/ping:
     get:
       consumes:

@@ -8,7 +8,7 @@ import (
 	ginSwagger "github.com/swaggo/gin-swagger"
 	docs "gin_api_bootstrap/docs"
 	"gin_api_bootstrap/api"
-	// "gin_api_bootstrap/middleware"
+	"gin_api_bootstrap/middleware"
 )
 
 func NewRouter() *gin.Engine {
@@ -21,6 +21,7 @@ func NewRouter() *gin.Engine {
 	api_v1 := router.Group("/api/v1")
 	{
 		api_v1.GET("/ping", api.Ping)
+		api_v1.GET("/checkApikey", middleware.AuthMiddleware(), api.CheckApikeyApi)
 	}
 
     docs.SwaggerInfo.Title = "接口文档"

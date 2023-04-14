@@ -19,3 +19,17 @@ func Ping(c *gin.Context) {
 	resp := util.MakeResponse(0, "操作成功", gin.H{})
 	c.JSON(http.StatusOK, resp)
 }
+
+// @Summary 检查Apikey
+// @Schemes http
+// @Description 检查Apikey
+// @Tags 通用
+// @Router /api/v1/checkApikey [get]
+// @Accept json
+// @Produce json
+// @Success 200 {object} util.Response
+// @Security ApiKeyAuth
+func CheckApikeyApi(c *gin.Context) {
+	resp := util.MakeResponse(0, "操作成功", gin.H{})
+	c.JSON(http.StatusOK, resp)
+}

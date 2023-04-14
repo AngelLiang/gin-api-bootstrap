@@ -25,4 +25,5 @@ func Init() {
 
 	Config.Host = os.Getenv("HOST")
 	Config.Port = util.Str2Int(os.Getenv("PORT"))
+	Config.ApiKey = os.Getenv("APIKEY")
 }
