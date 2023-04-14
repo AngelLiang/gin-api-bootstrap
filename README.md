@@ -20,12 +20,13 @@ go install github.com/swaggo/swag/cmd/swag@latest
 # 目录结构说明
 
 ```
-├─api           # 接口
+├─api           # http接口
 ├─config        # 项目配置
 ├─docs          # 由 swag 生成的swagger接口文档
 ├─middleware    # 中间件
 ├─model         # ORM模型
-├─server        # 服务路由
+├─serializer    # 序列化对象
+├─server        # URL路由
 ├─service       # 业务服务
 └─util          # 辅助工具
 ```
