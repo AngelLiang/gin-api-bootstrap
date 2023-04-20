@@ -10,6 +10,7 @@ go get -u github.com/swaggo/gin-swagger
 go mod download github.com/swaggo/files
 go get -u github.com/swaggo/swag/cmd/swag
 go install github.com/swaggo/swag/cmd/swag@latest
+go get -u gorm.io/gen 
 ```
 
 依赖包版本
@@ -17,7 +18,7 @@ go install github.com/swaggo/swag/cmd/swag@latest
 - gin v1.9.0
 - gin-swagger v1.3.0
 
-# 目录结构说明
+## 目录结构说明
 
 ```
 ├─api           # http接口
@@ -48,6 +49,15 @@ go run main.go
 http://127.0.0.1:3000/swagger/index.html
 
 
+生成数据模型
+
+执行`init_sql.sql`数据库初始化后，可以运行下面的语句，生成对应的模型
+
+```
+go run .\cmd\generate\main.go
+```
+
 参考资料
 
 - https://github.com/gourouting/singo
+- https://juejin.cn/post/7143968556609175583

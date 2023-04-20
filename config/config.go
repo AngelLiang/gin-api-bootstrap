@@ -12,6 +12,7 @@ type T_Config struct {
 	Host     string
 	Port     int
 	ApiKey	 string
+	DBURL    string
 }
 
 var Config T_Config
@@ -26,4 +27,5 @@ func Init() {
 	Config.Host = os.Getenv("HOST")
 	Config.Port = util.Str2Int(os.Getenv("PORT"))
 	Config.ApiKey = os.Getenv("APIKEY")
+	Config.DBURL = os.Getenv("DBURL")
 }
