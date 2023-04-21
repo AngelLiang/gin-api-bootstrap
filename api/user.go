@@ -2,6 +2,7 @@ package api
 
 import (
 	"fmt"
+	"time"
 	"net/http"
 	"github.com/gin-gonic/gin" // 导入 gin 框架
 
@@ -29,7 +30,12 @@ type GetUserDetailIn struct {
 }
 
 type GetUserDetailOut struct {
-	Id int `json:"id"`
+	ID int64 `json:"id"`
+	Name string `json:"name"`
+	Age int64 `json:"age"`
+	Balance float64 `json:"balance"`
+	CreatedAt time.Time `json:"createdAt"`
+	UpdatedAt time.Time `json:"updatedAt"`
 }
 
 // @Summary 获取用户详情
@@ -49,8 +55,7 @@ func GetUserDetailApi(c *gin.Context) {
 		c.JSON(http.StatusOK, resp)
 		return
 	}
-	userIdInt64 := util.Str2Int64(userId)
-	user, err := service.GetUserById(userIdInt64)
+	user, err := service.GetUserById(util.Str2Int64(userId))
 	if err != nil {
 		fmt.Println(err)
 		resp := util.MakeResponse(1, err.Error(), gin.H{})
@@ -59,7 +64,16 @@ func GetUserDetailApi(c *gin.Context) {
 	}
 
 	fmt.Println(user)
-	resp := util.MakeResponse(0, "操作成功", gin.H{})
+	out := GetUserDetailOut{
+		ID:user.ID,
+		Name:user.Name,
+		Age:user.Age,
+		Balance:user.Balance,
+		CreatedAt:user.CreatedAt,
+		UpdatedAt:user.UpdatedAt,
+	}
+
+	resp := util.MakeResponse(0, "操作成功", out)
 	c.JSON(http.StatusOK, resp)
 }
 

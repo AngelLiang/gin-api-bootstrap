@@ -1,8 +1,18 @@
 definitions:
   api.GetUserDetailOut:
     properties:
+      age:
+        type: integer
+      balance:
+        type: number
+      createdAt:
+        type: string
       id:
         type: integer
+      name:
+        type: string
+      updatedAt:
+        type: string
     type: object
   util.Response:
     properties:

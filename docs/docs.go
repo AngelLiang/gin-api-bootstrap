@@ -205,8 +205,23 @@ const docTemplate = `{
         "api.GetUserDetailOut": {
             "type": "object",
             "properties": {
+                "age": {
+                    "type": "integer"
+                },
+                "balance": {
+                    "type": "number"
+                },
+                "createdAt": {
+                    "type": "string"
+                },
                 "id": {
                     "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "updatedAt": {
+                    "type": "string"
                 }
             }
         },

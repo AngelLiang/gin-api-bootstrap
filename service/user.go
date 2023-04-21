@@ -16,6 +16,7 @@ type Pagination struct {
 
 // func GetUserList(p Pagination) {
 // 	qs := query.User
+// 	ctx := query.DB.Statement.Context
 // 	if err := qs.Limit(p.PerPage).Offset((p.Page-1)*p.PerPage).Find(&users).Error; err != nil {
 // 		c.JSON(http.StatusUnauthorized, gin.H{
 // 			"err_msg":  err.Error(),
