@@ -50,9 +50,10 @@ func GetUserDetailApi(c *gin.Context) {
 		return
 	}
 	userIdInt64 := util.Str2Int64(userId)
-	user, err := service.GerUserById(userIdInt64)
+	user, err := service.GetUserById(userIdInt64)
 	if err != nil {
-		resp := util.MakeResponse(1, "请求失败", gin.H{})
+		fmt.Println(err)
+		resp := util.MakeResponse(1, err.Error(), gin.H{})
 		c.JSON(http.StatusOK, resp)
 		return
 	}

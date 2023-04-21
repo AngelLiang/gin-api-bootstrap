@@ -23,12 +23,9 @@ type Pagination struct {
 // 	}
 // }
 
-func GerUserById(userId int64) (*model.User, error) {
-	qs := query.User
+func GetUserById(userId int64) (*model.User, error) {
 	// SELECT * FROM users WHERE id = 10;
-	// ctx := model.DB.context
-	ctx := model.DB.Statement.Context
-	user, err := qs.WithContext(ctx).Where(qs.ID.Eq(userId)).First()
-	// user, err := qs.Where(qs.ID.Eq(userId)).First()
+	ctx := query.DB.Statement.Context
+	user, err := query.User.WithContext(ctx).Where(query.User.ID.Eq(userId)).First()
 	return user, err
 }

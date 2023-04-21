@@ -1,4 +1,4 @@
-package model
+package query
 
 import (
 	"log"
@@ -10,10 +10,12 @@ import (
 	"gorm.io/gorm/logger"
 
 	"gin_api_bootstrap/util"
+	// "gin_api_bootstrap/query"
 )
 
 // DB 数据库链接单例
 var DB *gorm.DB
+// var dbQuery *Query
 
 // Database 在中间件中初始化mysql链接
 func Database(connString string) {
@@ -47,6 +49,10 @@ func Database(connString string) {
 	sqlDB.SetMaxIdleConns(10)
 	//打开
 	sqlDB.SetMaxOpenConns(20)
+	
+	
+	// dbQuery = Use(db)
+	SetDefault(db)
 	DB = db
 
 	// migration()
