@@ -107,6 +107,15 @@ paths:
       consumes:
       - application/json
       description: 获取用户列表
+      parameters:
+      - description: 当前页数
+        in: query
+        name: current
+        type: integer
+      - description: 每页数量
+        in: query
+        name: size
+        type: integer
       produces:
       - application/json
       responses:

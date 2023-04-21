@@ -10,6 +10,23 @@ import (
 	"gin_api_bootstrap/util"
 )
 
+
+type UserListOut struct {
+	ID int64 `json:"id"`
+	Name string `json:"name"`
+	Age int64 `json:"age"`
+	Balance float64 `json:"balance"`
+	CreatedAt time.Time `json:"createdAt"`
+	UpdatedAt time.Time `json:"updatedAt"`
+}
+
+type UserListDataOut struct {
+	Current int
+	Size int
+	Count int64
+	Items []UserListOut
+}
+
 // @Summary 获取用户列表
 // @Schemes http
 // @Description 获取用户列表
@@ -17,9 +34,26 @@ import (
 // @Router /api/v1/user/list [get]
 // @Accept json
 // @Produce json
-// @Success 200 {object} util.Response
+// @Param current query int false "当前页数"
+// @Param size query int false "每页数量"
+// @Success 200 {object} util.Response{data=UserListDataOut}
 // @Security ApiKeyAuth
 func ListUserApi(c *gin.Context) {
+	var p util.Pagination
+	if err := c.ShouldBindQuery(&p); err != nil {
+		resp := util.MakeResponse(0, "传参错误", gin.H{})
+		c.JSON(http.StatusOK, resp)
+		return
+	}
+	fmt.Println(p)
+	userList, count, err := service.GetUserList(p)
+	if err != nil {
+		resp := util.MakeResponse(0, "传参错误", gin.H{})
+		c.JSON(http.StatusOK, resp)
+		return
+	}
+	fmt.Println(userList)
+
 	resp := util.MakeResponse(0, "操作成功", gin.H{})
 	c.JSON(http.StatusOK, resp)
 }
