@@ -180,7 +180,19 @@ const docTemplate = `{
                     "200": {
                         "description": "OK",
                         "schema": {
-                            "$ref": "#/definitions/util.Response"
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/util.Response"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/api.UserListDataOut"
+                                        }
+                                    }
+                                }
+                            ]
                         }
                     }
                 }
@@ -217,6 +229,49 @@ const docTemplate = `{
     },
     "definitions": {
         "api.GetUserDetailOut": {
+            "type": "object",
+            "properties": {
+                "age": {
+                    "type": "integer"
+                },
+                "balance": {
+                    "type": "number"
+                },
+                "createdAt": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "updatedAt": {
+                    "type": "string"
+                }
+            }
+        },
+        "api.UserListDataOut": {
+            "type": "object",
+            "properties": {
+                "count": {
+                    "type": "integer"
+                },
+                "current": {
+                    "type": "integer"
+                },
+                "records": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/api.UserListOut"
+                    }
+                },
+                "size": {
+                    "type": "integer"
+                }
+            }
+        },
+        "api.UserListOut": {
             "type": "object",
             "properties": {
                 "age": {

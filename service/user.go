@@ -20,7 +20,13 @@ func GetUserList(p util.Pagination) ([]*model.User, int64, error) {
 		res, count, err = query.User.WithContext(ctx).FindByPage(p.PerPage, (p.Page-1)*p.PerPage)
 	} else {
 		res, err = query.User.WithContext(ctx).Find()
-		count = query.User.WithContext(ctx).Count()
+		if err != nil {
+			return nil, 0, err
+		}
+		count, err = query.User.WithContext(ctx).Count()
+		if err != nil {
+			return nil, 0, err
+		}
 	}
 	fmt.Println(res)
 	return res, count, err

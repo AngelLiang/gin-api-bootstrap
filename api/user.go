@@ -21,10 +21,10 @@ type UserListOut struct {
 }
 
 type UserListDataOut struct {
-	Current int
-	Size int
-	Count int64
-	Items []UserListOut
+	Current int `json:"current"`
+	Size int    `json:"size"`
+	Count int64  `json:"count"`
+	Records []UserListOut `json:"records"`
 }
 
 // @Summary 获取用户列表
@@ -53,8 +53,24 @@ func ListUserApi(c *gin.Context) {
 		return
 	}
 	fmt.Println(userList)
+	out := UserListDataOut{
+		Current: p.Page,
+		Size: p.PerPage,
+		Count: count,
+	}
+	for _, item := range userList {
+		record := UserListOut{
+			ID: item.ID,
+			Name: item.Name,
+			Age: item.Age,
+			Balance: item.Balance,
+			CreatedAt: item.CreatedAt,
+			UpdatedAt: item.UpdatedAt,
+		}
+		out.Records = append(out.Records, record)
+	}
 
-	resp := util.MakeResponse(0, "操作成功", gin.H{})
+	resp := util.MakeResponse(0, "操作成功", out)
 	c.JSON(http.StatusOK, resp)
 }
 
