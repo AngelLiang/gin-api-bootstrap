@@ -11,7 +11,7 @@ import (
 )
 
 
-type UserListOut struct {
+type UserRecord struct {
 	ID int64 `json:"id"`
 	Name string `json:"name"`
 	Age int64 `json:"age"`
@@ -20,11 +20,11 @@ type UserListOut struct {
 	UpdatedAt time.Time `json:"updatedAt"`
 }
 
-type UserListDataOut struct {
+type UserListOut struct {
 	Current int `json:"current"`
 	Size int    `json:"size"`
 	Count int64  `json:"count"`
-	Records []UserListOut `json:"records"`
+	Records []UserRecord `json:"records"`
 }
 
 // @Summary 获取用户列表
@@ -53,13 +53,13 @@ func ListUserApi(c *gin.Context) {
 		return
 	}
 	fmt.Println(userList)
-	out := UserListDataOut{
+	out := UserListOut{
 		Current: p.Page,
 		Size: p.PerPage,
 		Count: count,
 	}
 	for _, item := range userList {
-		record := UserListOut{
+		record := UserRecord{
 			ID: item.ID,
 			Name: item.Name,
 			Age: item.Age,
