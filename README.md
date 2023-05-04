@@ -5,12 +5,12 @@ gin开发http api项目的启动脚手架
 安装依赖包
 
 ```
-go get -u github.com/gin-gonic/gin
-go get -u github.com/swaggo/gin-swagger
+go get -u github.com/gin-gonic/gin@v1.9.0
+go get -u github.com/swaggo/gin-swagger@v1.3.0
 go mod download github.com/swaggo/files
 go get -u github.com/swaggo/swag/cmd/swag
 go install github.com/swaggo/swag/cmd/swag@latest
-go get -u gorm.io/gen 
+go get -u gorm.io/gen@v0.3.16
 ```
 
 依赖包版本
