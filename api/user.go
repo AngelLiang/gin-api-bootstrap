@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"github.com/gin-gonic/gin" // 导入 gin 框架
 
+	"gin_api_bootstrap/serializer"
 	"gin_api_bootstrap/service"
 	"gin_api_bootstrap/util"
 )
@@ -36,7 +37,7 @@ type UserListOut struct {
 // @Produce json
 // @Param current query int false "当前页数"
 // @Param size query int false "每页数量"
-// @Success 200 {object} util.Response{data=UserListDataOut}
+// @Success 200 {object} util.Response{data=UserRecord}
 // @Security ApiKeyAuth
 func ListUserApi(c *gin.Context) {
 	var p util.Pagination
@@ -128,6 +129,16 @@ func GetUserDetailApi(c *gin.Context) {
 }
 
 
+// type AddUserIn struct {
+// 	// 姓名
+// 	Name string `json:"name"`
+// 	// 年龄
+// 	Age int64 `json:"age"`
+// 	// 余额
+// 	Balance float64 `json:"balance"`
+// }
+
+
 // @Summary 添加用户
 // @Schemes http
 // @Description 添加用户
@@ -137,7 +148,22 @@ func GetUserDetailApi(c *gin.Context) {
 // @Produce json
 // @Success 200 {object} util.Response
 // @Security ApiKeyAuth
+// @Param string body serializer.AddUserIn false "用户详情"
 func AddUserApi(c *gin.Context) {
+	var jsonIn serializer.AddUserIn
+	if err := c.ShouldBindJSON(&jsonIn); err != nil {
+		resp := util.MakeResponse(0, "传参错误", gin.H{})
+		c.JSON(http.StatusOK, resp)
+		return
+	}
+	err := service.AddUser(jsonIn)
+	if err != nil {
+		fmt.Println(err)
+		resp := util.MakeResponse(1, err.Error(), gin.H{})
+		c.JSON(http.StatusOK, resp)
+		return
+	}
+
 	resp := util.MakeResponse(0, "操作成功", gin.H{})
 	c.JSON(http.StatusOK, resp)
 }

@@ -6,6 +6,7 @@ import (
 	// "errors"
 	// "github.com/gin-gonic/gin"
 	"gin_api_bootstrap/util"
+	"gin_api_bootstrap/serializer"
 
 	"gin_api_bootstrap/model"
 	"gin_api_bootstrap/query"
@@ -37,4 +38,19 @@ func GetUserById(userId int64) (*model.User, error) {
 	ctx := query.DB.Statement.Context
 	user, err := query.User.WithContext(ctx).Where(query.User.ID.Eq(userId)).First()
 	return user, err
+}
+
+
+func AddUser(in serializer.AddUserIn) (error) {
+	fmt.Println(in)
+	users := []*model.User{
+		{
+			Name:in.Name,
+			Age:in.Age,
+			Balance:in.Balance,
+		},
+	}
+	ctx := query.DB.Statement.Context
+	err := query.User.WithContext(ctx).Create(users...)
+	return err
 }

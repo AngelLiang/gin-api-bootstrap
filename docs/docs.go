@@ -85,6 +85,16 @@ const docTemplate = `{
                     "用户管理"
                 ],
                 "summary": "添加用户",
+                "parameters": [
+                    {
+                        "description": "用户详情",
+                        "name": "string",
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/serializer.AddUserIn"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -188,7 +198,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/api.UserListDataOut"
+                                            "$ref": "#/definitions/api.UserRecord"
                                         }
                                     }
                                 }
@@ -251,27 +261,7 @@ const docTemplate = `{
                 }
             }
         },
-        "api.UserListDataOut": {
-            "type": "object",
-            "properties": {
-                "count": {
-                    "type": "integer"
-                },
-                "current": {
-                    "type": "integer"
-                },
-                "records": {
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/api.UserListOut"
-                    }
-                },
-                "size": {
-                    "type": "integer"
-                }
-            }
-        },
-        "api.UserListOut": {
+        "api.UserRecord": {
             "type": "object",
             "properties": {
                 "age": {
@@ -290,6 +280,23 @@ const docTemplate = `{
                     "type": "string"
                 },
                 "updatedAt": {
+                    "type": "string"
+                }
+            }
+        },
+        "serializer.AddUserIn": {
+            "type": "object",
+            "properties": {
+                "age": {
+                    "description": "年龄",
+                    "type": "integer"
+                },
+                "balance": {
+                    "description": "余额",
+                    "type": "number"
+                },
+                "name": {
+                    "description": "姓名",
                     "type": "string"
                 }
             }

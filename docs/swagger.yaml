@@ -14,20 +14,7 @@ definitions:
       updatedAt:
         type: string
     type: object
-  api.UserListDataOut:
-    properties:
-      count:
-        type: integer
-      current:
-        type: integer
-      records:
-        items:
-          $ref: '#/definitions/api.UserListOut'
-        type: array
-      size:
-        type: integer
-    type: object
-  api.UserListOut:
+  api.UserRecord:
     properties:
       age:
         type: integer
@@ -40,6 +27,18 @@ definitions:
       name:
         type: string
       updatedAt:
+        type: string
+    type: object
+  serializer.AddUserIn:
+    properties:
+      age:
+        description: 年龄
+        type: integer
+      balance:
+        description: 余额
+        type: number
+      name:
+        description: 姓名
         type: string
     type: object
   util.Response:
@@ -90,6 +89,12 @@ paths:
       consumes:
       - application/json
       description: 添加用户
+      parameters:
+      - description: 用户详情
+        in: body
+        name: string
+        schema:
+          $ref: '#/definitions/serializer.AddUserIn'
       produces:
       - application/json
       responses:
@@ -154,7 +159,7 @@ paths:
             - $ref: '#/definitions/util.Response'
             - properties:
                 data:
-                  $ref: '#/definitions/api.UserListDataOut'
+                  $ref: '#/definitions/api.UserRecord'
               type: object
       security:
       - ApiKeyAuth: []
