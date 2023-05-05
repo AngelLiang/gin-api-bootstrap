@@ -208,7 +208,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/api/v1/user/update": {
+        "/api/v1/user/update/{id}": {
             "put": {
                 "security": [
                     {
@@ -226,6 +226,23 @@ const docTemplate = `{
                     "用户管理"
                 ],
                 "summary": "更新用户信息",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "用户详情",
+                        "name": "string",
+                        "in": "body",
+                        "schema": {
+                            "$ref": "#/definitions/serializer.UpdateUserIn"
+                        }
+                    }
+                ],
                 "responses": {
                     "200": {
                         "description": "OK",
@@ -285,6 +302,23 @@ const docTemplate = `{
             }
         },
         "serializer.AddUserIn": {
+            "type": "object",
+            "properties": {
+                "age": {
+                    "description": "年龄",
+                    "type": "integer"
+                },
+                "balance": {
+                    "description": "余额",
+                    "type": "number"
+                },
+                "name": {
+                    "description": "姓名",
+                    "type": "string"
+                }
+            }
+        },
+        "serializer.UpdateUserIn": {
             "type": "object",
             "properties": {
                 "age": {

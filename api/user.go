@@ -187,12 +187,45 @@ func AddUserApi(c *gin.Context) {
 // @Schemes http
 // @Description 更新用户信息
 // @Tags 用户管理
-// @Router /api/v1/user/update [put]
+// @Router /api/v1/user/update/{id} [put]
 // @Accept json
 // @Produce json
-// @Success 200 {object} util.Response
 // @Security ApiKeyAuth
+// @Param id path int true "ID"
+// @Param string body serializer.UpdateUserIn false "用户详情"
+// @Success 200 {object} util.Response
 func UpdateUserApi(c *gin.Context) {
+	userId := c.Param("id")
+	if userId == "" {
+		resp := util.MakeResponse(1, "请求失败，参数丢失", gin.H{})
+		c.JSON(http.StatusOK, resp)
+		return
+	}
+
+	// 获取传参
+	var jsonIn serializer.UpdateUserIn
+	if err := c.ShouldBindJSON(&jsonIn); err != nil {
+		resp := util.MakeResponse(0, "传参错误", gin.H{})
+		c.JSON(http.StatusOK, resp)
+		return
+	}
+
+	// 获取对象
+	user, err := service.GetUserById(util.Str2Int64(userId))
+	if err != nil {
+		resp := util.MakeResponse(1, err.Error(), gin.H{})
+		c.JSON(http.StatusOK, resp)
+		return
+	}
+
+	// 更新数据
+	err = service.UpdateUser(*user, jsonIn)
+	if err != nil {
+		resp := util.MakeResponse(1, err.Error(), gin.H{})
+		c.JSON(http.StatusOK, resp)
+		return
+	}
+
 	resp := util.MakeResponse(0, "操作成功", gin.H{})
 	c.JSON(http.StatusOK, resp)
 }

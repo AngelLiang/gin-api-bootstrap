@@ -41,6 +41,18 @@ definitions:
         description: 姓名
         type: string
     type: object
+  serializer.UpdateUserIn:
+    properties:
+      age:
+        description: 年龄
+        type: integer
+      balance:
+        description: 余额
+        type: number
+      name:
+        description: 姓名
+        type: string
+    type: object
   util.Response:
     properties:
       code:
@@ -166,11 +178,22 @@ paths:
       summary: 获取用户列表
       tags:
       - 用户管理
-  /api/v1/user/update:
+  /api/v1/user/update/{id}:
     put:
       consumes:
       - application/json
       description: 更新用户信息
+      parameters:
+      - description: ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: 用户详情
+        in: body
+        name: string
+        schema:
+          $ref: '#/definitions/serializer.UpdateUserIn'
       produces:
       - application/json
       responses:

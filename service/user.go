@@ -57,3 +57,13 @@ func AddUser(in serializer.AddUserIn) (error) {
 	err := query.User.WithContext(ctx).Create(&user)
 	return err
 }
+
+func UpdateUser(user model.User, in serializer.UpdateUserIn) error {
+	user.Name = in.Name
+	user.Age = in.Age
+	user.Balance = in.Balance
+	ctx := query.DB.Statement.Context
+	err := query.User.WithContext(ctx).Save(&user)
+	fmt.Println(user)
+	return err
+}
