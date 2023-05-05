@@ -40,13 +40,16 @@ func GetUserById(userId int64) (*model.User, error) {
 	return user, err
 }
 
-// func UserIsExistsByName(name string) {
-// 	ctx := query.DB.Statement.Context
-// 	res, err := query.User.WithContext(ctx).Where(query.User.Name.Eq(name)).Exists()
-// 	fmt.Println(res, err)
-// 	return res, err 
-// }
-
+func UserIsExistByName(name string) bool {
+	ctx := query.DB.Statement.Context
+	_, err := query.User.WithContext(ctx).Where(query.User.Name.Eq(name)).First()
+	if err != nil {
+		//record not found
+		// fmt.Printf("%+v \n", err)
+		return false
+	}
+	return true
+}
 
 func AddUser(in serializer.AddUserIn) (error) {
 	user := model.User{Name: in.Name, Age: in.Age, Balance: in.Balance}

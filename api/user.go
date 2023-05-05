@@ -157,7 +157,11 @@ func AddUserApi(c *gin.Context) {
 		return
 	}
 
-	// isExists, err := UserIsExistsByName(jsonIn.Name)
+	if isExist := service.UserIsExistByName(jsonIn.Name); isExist == true {
+		resp := util.MakeResponse(1, "存在相同的姓名", gin.H{})
+		c.JSON(http.StatusOK, resp)
+		return
+	}
 	// if err != nil {
 	// 	fmt.Println(err)
 	// 	resp := util.MakeResponse(1, err.Error(), gin.H{})
