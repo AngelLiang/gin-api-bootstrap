@@ -156,6 +156,15 @@ func AddUserApi(c *gin.Context) {
 		c.JSON(http.StatusOK, resp)
 		return
 	}
+
+	// isExists, err := UserIsExistsByName(jsonIn.Name)
+	// if err != nil {
+	// 	fmt.Println(err)
+	// 	resp := util.MakeResponse(1, err.Error(), gin.H{})
+	// 	c.JSON(http.StatusOK, resp)
+	// 	return
+	// }
+
 	err := service.AddUser(jsonIn)
 	if err != nil {
 		fmt.Println(err)

@@ -40,17 +40,17 @@ func GetUserById(userId int64) (*model.User, error) {
 	return user, err
 }
 
+// func UserIsExistsByName(name string) {
+// 	ctx := query.DB.Statement.Context
+// 	res, err := query.User.WithContext(ctx).Where(query.User.Name.Eq(name)).Exists()
+// 	fmt.Println(res, err)
+// 	return res, err 
+// }
+
 
 func AddUser(in serializer.AddUserIn) (error) {
-	fmt.Println(in)
-	users := []*model.User{
-		{
-			Name:in.Name,
-			Age:in.Age,
-			Balance:in.Balance,
-		},
-	}
+	user := model.User{Name: in.Name, Age: in.Age, Balance: in.Balance}
 	ctx := query.DB.Statement.Context
-	err := query.User.WithContext(ctx).Create(users...)
+	err := query.User.WithContext(ctx).Create(&user)
 	return err
 }
