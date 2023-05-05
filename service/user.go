@@ -51,6 +51,19 @@ func UserIsExistByName(name string) bool {
 	return true
 }
 
+func UserIsExistByNameNotId(name string, id int64) bool {
+	ctx := query.DB.Statement.Context
+	_, err := query.User.WithContext(ctx).Where(
+		query.User.Name.Eq(name),
+	).Not(query.User.ID.Eq(id)).First()
+	if err != nil {
+		//record not found
+		// fmt.Printf("%+v \n", err)
+		return false
+	}
+	return true
+}
+
 func AddUser(in serializer.AddUserIn) (error) {
 	user := model.User{Name: in.Name, Age: in.Age, Balance: in.Balance}
 	ctx := query.DB.Statement.Context
@@ -64,6 +77,5 @@ func UpdateUser(user model.User, in serializer.UpdateUserIn) error {
 	user.Balance = in.Balance
 	ctx := query.DB.Statement.Context
 	err := query.User.WithContext(ctx).Save(&user)
-	fmt.Println(user)
 	return err
 }

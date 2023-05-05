@@ -162,12 +162,6 @@ func AddUserApi(c *gin.Context) {
 		c.JSON(http.StatusOK, resp)
 		return
 	}
-	// if err != nil {
-	// 	fmt.Println(err)
-	// 	resp := util.MakeResponse(1, err.Error(), gin.H{})
-	// 	c.JSON(http.StatusOK, resp)
-	// 	return
-	// }
 
 	err := service.AddUser(jsonIn)
 	if err != nil {
@@ -206,6 +200,12 @@ func UpdateUserApi(c *gin.Context) {
 	var jsonIn serializer.UpdateUserIn
 	if err := c.ShouldBindJSON(&jsonIn); err != nil {
 		resp := util.MakeResponse(0, "传参错误", gin.H{})
+		c.JSON(http.StatusOK, resp)
+		return
+	}
+
+	if isExist := service.UserIsExistByNameNotId(jsonIn.Name, util.Str2Int64(userId)); isExist == true {
+		resp := util.MakeResponse(1, "存在相同的姓名", gin.H{})
 		c.JSON(http.StatusOK, resp)
 		return
 	}
