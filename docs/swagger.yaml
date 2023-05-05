@@ -119,6 +119,29 @@ paths:
       summary: 添加用户
       tags:
       - 用户管理
+  /api/v1/user/delete/{id}:
+    delete:
+      consumes:
+      - application/json
+      description: 删除用户
+      parameters:
+      - description: ID
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/util.Response'
+      security:
+      - ApiKeyAuth: []
+      summary: 删除用户
+      tags:
+      - 用户管理
   /api/v1/user/detail:
     get:
       consumes:

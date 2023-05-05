@@ -229,3 +229,42 @@ func UpdateUserApi(c *gin.Context) {
 	resp := util.MakeResponse(0, "操作成功", gin.H{})
 	c.JSON(http.StatusOK, resp)
 }
+
+
+
+// @Summary 删除用户
+// @Schemes http
+// @Description 删除用户
+// @Tags 用户管理
+// @Router /api/v1/user/delete/{id} [delete]
+// @Accept json
+// @Produce json
+// @Security ApiKeyAuth
+// @Param id path int true "ID"
+// @Success 200 {object} util.Response
+func DeleteUserApi(c *gin.Context) {
+	userId := c.Param("id")
+	if userId == "" {
+		resp := util.MakeResponse(1, "请求失败，参数丢失", gin.H{})
+		c.JSON(http.StatusOK, resp)
+		return
+	}
+
+	// 获取对象
+	_, err := service.GetUserById(util.Str2Int64(userId))
+	if err != nil {
+		resp := util.MakeResponse(1, err.Error(), gin.H{})
+		c.JSON(http.StatusOK, resp)
+		return
+	}
+
+	// 删除对象
+	if err := service.DeleteUser(util.Str2Int64(userId)); err != nil {
+		resp := util.MakeResponse(1, err.Error(), gin.H{})
+		c.JSON(http.StatusOK, resp)
+		return
+	}
+
+	resp := util.MakeResponse(0, "操作成功", gin.H{})
+	c.JSON(http.StatusOK, resp)
+}

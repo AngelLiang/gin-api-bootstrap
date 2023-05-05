@@ -46,6 +46,7 @@ func NewRouter() *gin.Engine {
 		api_v1.GET("/user/detail", middleware.AuthMiddleware(), api.GetUserDetailApi)
 		api_v1.POST("/user/add", middleware.AuthMiddleware(), api.AddUserApi)
 		api_v1.PUT("/user/update/:id", middleware.AuthMiddleware(), api.UpdateUserApi)
+		api_v1.DELETE("/user/delete/:id", middleware.AuthMiddleware(), api.DeleteUserApi)
 	}
 
     docs.SwaggerInfo.Title = "接口文档"

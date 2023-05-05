@@ -79,3 +79,9 @@ func UpdateUser(user model.User, in serializer.UpdateUserIn) error {
 	err := query.User.WithContext(ctx).Save(&user)
 	return err
 }
+
+func DeleteUser(userId int64) error {
+	ctx := query.DB.Statement.Context
+	_, err := query.User.WithContext(ctx).Where(query.User.ID.Eq(userId)).Delete()
+	return err
+}
