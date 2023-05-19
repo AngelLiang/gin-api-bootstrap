@@ -1,106 +1,61 @@
 package util
 
 import (
-	// "os"
-	"fmt"
+	"os"
 	"time"
+    "github.com/gin-gonic/gin"
+    "github.com/sirupsen/logrus"
 )
 
-const (
-	// LevelError 错误
-	LevelError = iota
-	// LevelWarning 警告
-	LevelWarning
-	// LevelInformational 提示
-	LevelInformational
-	// LevelDebug 除错
-	LevelDebug
-)
+var logger *logrus.Logger
 
-var logger *Logger
+func GinLogrus(log *logrus.Logger) gin.HandlerFunc {
+    return func(c *gin.Context) {
+        // 开始请求计时
+        start := time.Now()
 
-// Logger 日志
-type Logger struct {
-	level int
+        // 处理请求
+        c.Next()
+
+        // 记录请求和响应信息
+        log.WithFields(logrus.Fields{
+            "status":  c.Writer.Status(),
+            "method":  c.Request.Method,
+            "path":    c.Request.URL.Path,
+            "ip":      c.ClientIP(),
+            "latency": time.Since(start),
+        }).Info("Gin request")
+
+        // 清除Gin的错误信息
+        c.Errors = nil
+    }
 }
 
-// Println 打印
-func (ll *Logger) Println(msg string) {
-	fmt.Printf("%s %s\r\n", time.Now().Format("2006-01-02 15:04:05 -0700"), msg)
-}
+func InitLogrus() *logrus.Logger {
+    log := logrus.New()
+	intLevel := logrus.DebugLevel
+	// switch level {
+	// 	case "error":
+	// 		intLevel = logrus.ErrorLevel
+	// 	case "warning":
+	// 		intLevel = logrus.WarningLevel
+	// 	case "info":
+	// 		intLevel = logrus.InformationalLevel
+	// 	case "debug":
+	// 		intLevel = logrus.DebugLevel
+	// }
 
-// Panic 极端错误
-func (ll *Logger) Panic(format string, v ...interface{}) {
-	if LevelError > ll.level {
-		return
-	}
-	msg := fmt.Sprintf("[P] "+format, v...)
-	ll.Println(msg)
-	// os.Exit(0)
-}
+    // 设置日志级别
+    log.SetLevel(intLevel)
+    
+    // 将日志记录到标准输出
+    log.SetOutput(os.Stdout)
 
-// Error 错误
-func (ll *Logger) Error(format string, v ...interface{}) {
-	if LevelError > ll.level {
-		return
-	}
-	msg := fmt.Sprintf("[E] "+format, v...)
-	ll.Println(msg)
-}
-
-// Warning 警告
-func (ll *Logger) Warning(format string, v ...interface{}) {
-	if LevelWarning > ll.level {
-		return
-	}
-	msg := fmt.Sprintf("[W] "+format, v...)
-	ll.Println(msg)
-}
-
-// Info 信息
-func (ll *Logger) Info(format string, v ...interface{}) {
-	if LevelInformational > ll.level {
-		return
-	}
-	msg := fmt.Sprintf("[I] "+format, v...)
-	ll.Println(msg)
-}
-
-// Debug 校验
-func (ll *Logger) Debug(format string, v ...interface{}) {
-	if LevelDebug > ll.level {
-		return
-	}
-	msg := fmt.Sprintf("[D] "+format, v...)
-	ll.Println(msg)
-}
-
-// BuildLogger 构建logger
-func BuildLogger(level string) {
-	intLevel := LevelError
-	switch level {
-	case "error":
-		intLevel = LevelError
-	case "warning":
-		intLevel = LevelWarning
-	case "info":
-		intLevel = LevelInformational
-	case "debug":
-		intLevel = LevelDebug
-	}
-	l := Logger{
-		level: intLevel,
-	}
-	logger = &l
+	logger = log
+    return logger
 }
 
 // Log 返回日志对象
-func Log() *Logger {
-	if logger == nil {
-		l := Logger{
-			level: LevelDebug,
-		}
-		logger = &l
-	}
+func Log() *logrus.Logger {
 	return logger
 }
