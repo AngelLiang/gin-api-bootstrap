@@ -17,12 +17,18 @@ import (
 func NewRouter() *gin.Engine {
     router := gin.Default()
 
+	// 禁用控制台颜色，将日志写入文件时不需要控制台颜色。
+	// gin.DisableConsoleColor()
 	// 使用 Logger 中间件，记录每个请求的日志信息
 	// router.Use(gin.Logger())
 	router.Use(gin.LoggerWithFormatter(func(param gin.LogFormatterParams) string {
         //TODO 写入对应文件的逻辑
-		log1, _ := os.Create("log.log")
-		gin.DefaultWriter = io.MultiWriter(log1)
+		log, _ := os.Create("log.log")
+
+		gin.DefaultWriter = io.MultiWriter(log)
+    	// 如果需要同时将日志写入文件和控制台，请使用以下代码。
+    	// gin.DefaultWriter = io.MultiWriter(log, os.Stdout)
+
 		// 输出自定义格式
 		return fmt.Sprintf("%s - [%s] \"%s %s %s %d %s \"%s\" %s\"\n",
 				param.ClientIP,
