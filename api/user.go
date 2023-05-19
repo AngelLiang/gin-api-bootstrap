@@ -46,14 +46,14 @@ func ListUserApi(c *gin.Context) {
 		c.JSON(http.StatusOK, resp)
 		return
 	}
-	fmt.Println(p)
+	// util.Log().Debug(p)
 	userList, count, err := service.GetUserList(p)
 	if err != nil {
 		resp := util.MakeResponse(0, "传参错误", gin.H{})
 		c.JSON(http.StatusOK, resp)
 		return
 	}
-	fmt.Println(userList)
+	// util.Log().Debug(userList)
 	out := UserListOut{
 		Current: p.Page,
 		Size: p.PerPage,
@@ -108,7 +108,7 @@ func GetUserDetailApi(c *gin.Context) {
 	}
 	user, err := service.GetUserById(util.Str2Int64(userId))
 	if err != nil {
-		fmt.Println(err)
+		util.Log().Error(err)
 		resp := util.MakeResponse(1, err.Error(), gin.H{})
 		c.JSON(http.StatusOK, resp)
 		return
@@ -165,7 +165,7 @@ func AddUserApi(c *gin.Context) {
 
 	err := service.AddUser(jsonIn)
 	if err != nil {
-		fmt.Println(err)
+		util.Log().Error(err)
 		resp := util.MakeResponse(1, err.Error(), gin.H{})
 		c.JSON(http.StatusOK, resp)
 		return

@@ -1,7 +1,7 @@
 package service
 
 import (
-	"fmt"
+	// "fmt"
 	// "net/http"
 	// "errors"
 	// "github.com/gin-gonic/gin"
@@ -13,24 +13,24 @@ import (
 )
 
 func GetUserList(p util.Pagination) ([]*model.User, int64, error) {
-	var res []*model.User
+	var records []*model.User
 	var count int64
 	var err error
 	ctx := query.DB.Statement.Context
 	if (p.Page > 0 && p.PerPage > 0) {
-		res, count, err = query.User.WithContext(ctx).FindByPage(p.PerPage, (p.Page-1)*p.PerPage)
+		records, count, err = query.User.WithContext(ctx).FindByPage(p.PerPage, (p.Page-1)*p.PerPage)
 	} else {
-		res, err = query.User.WithContext(ctx).Find()
+		records, err = query.User.WithContext(ctx).Find()
 		if err != nil {
-			return nil, 0, err
+			return nil, -1, err
 		}
 		count, err = query.User.WithContext(ctx).Count()
 		if err != nil {
-			return nil, 0, err
+			return nil, -1, err
 		}
 	}
-	fmt.Println(res)
-	return res, count, err
+	// fmt.Println(res)
+	return records, count, err
 }
 
 func GetUserById(userId int64) (*model.User, error) {
