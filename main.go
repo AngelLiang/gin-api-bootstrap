@@ -17,5 +17,6 @@ func main() {
 	// 创建路由服务
 	router := server.NewRouter()
 	url := config.Config.Host + ":" + util.Int2Str(config.Config.Port)
+	// util.Log().Info("start server: %v", url)
 	router.Run(url)
 }

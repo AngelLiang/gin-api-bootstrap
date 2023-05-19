@@ -1,10 +1,11 @@
 package util
 
 import (
-	"os"
+	// "os"
 	"time"
     "github.com/gin-gonic/gin"
     "github.com/sirupsen/logrus"
+    "gopkg.in/natefinch/lumberjack.v2"
 )
 
 var logger *logrus.Logger
@@ -49,8 +50,17 @@ func InitLogrus() *logrus.Logger {
     // 设置日志级别
     log.SetLevel(intLevel)
     
-    // 将日志记录到标准输出
-    log.SetOutput(os.Stdout)
+    logFile := &lumberjack.Logger{
+        Filename:   "log/log.log", // 日志文件路径
+        MaxSize:    500,                      // 单个日志文件的最大尺寸（以MB为单位）
+        MaxBackups: 10,                        // 保留的旧日志文件的最大个数
+        MaxAge:     30,                       // 保留的旧日志文件的最大天数
+        Compress:   true,                     // 是否压缩旧日志文件
+    }
+
+    // // 将日志记录到标准输出
+    log.SetOutput(logFile)
+    // log.SetOutput(os.Stdout)
 
 	logger = log
     return logger
