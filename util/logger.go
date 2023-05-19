@@ -22,6 +22,7 @@ func GinLogrus(log *logrus.Logger) gin.HandlerFunc {
             "status":  c.Writer.Status(),
             "method":  c.Request.Method,
             "path":    c.Request.URL.Path,
+            "userAgent": c.Request.UserAgent(),
             "ip":      c.ClientIP(),
             "latency": time.Since(start),
         }).Info("Gin request")
