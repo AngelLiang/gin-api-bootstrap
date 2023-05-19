@@ -1,8 +1,8 @@
 package util
 
 import (
+	// "os"
 	"fmt"
-	"os"
 	"time"
 )
 
@@ -26,7 +26,7 @@ type Logger struct {
 
 // Println 打印
 func (ll *Logger) Println(msg string) {
-	fmt.Printf("%s %s", time.Now().Format("2006-01-02 15:04:05 -0700"), msg)
+	fmt.Printf("%s %s\r\n", time.Now().Format("2006-01-02 15:04:05 -0700"), msg)
 }
 
 // Panic 极端错误
@@ -34,9 +34,9 @@ func (ll *Logger) Panic(format string, v ...interface{}) {
 	if LevelError > ll.level {
 		return
 	}
-	msg := fmt.Sprintf("[Panic] "+format, v...)
+	msg := fmt.Sprintf("[P] "+format, v...)
 	ll.Println(msg)
-	os.Exit(0)
+	// os.Exit(0)
 }
 
 // Error 错误
