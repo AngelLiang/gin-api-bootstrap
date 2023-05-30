@@ -12,6 +12,7 @@ import (
 	"gin_api_bootstrap/query"
 )
 
+// 获取用户列表
 func GetUserList(p util.Pagination) ([]*model.User, int64, error) {
 	var records []*model.User
 	var count int64
@@ -33,6 +34,7 @@ func GetUserList(p util.Pagination) ([]*model.User, int64, error) {
 	return records, count, err
 }
 
+// 获取用户
 func GetUserById(userId int64) (*model.User, error) {
 	// SELECT * FROM users WHERE id = 10;
 	ctx := query.DB.Statement.Context
@@ -64,6 +66,7 @@ func UserIsExistByNameNotId(name string, id int64) bool {
 	return true
 }
 
+// 添加用户
 func AddUser(in serializer.AddUserIn) (error) {
 	user := model.User{Name: in.Name, Age: in.Age, Balance: in.Balance}
 	ctx := query.DB.Statement.Context
@@ -71,6 +74,7 @@ func AddUser(in serializer.AddUserIn) (error) {
 	return err
 }
 
+// 更新用户
 func UpdateUser(user model.User, in serializer.UpdateUserIn) error {
 	user.Name = in.Name
 	user.Age = in.Age
@@ -80,6 +84,7 @@ func UpdateUser(user model.User, in serializer.UpdateUserIn) error {
 	return err
 }
 
+// 删除用户
 func DeleteUser(userId int64) error {
 	ctx := query.DB.Statement.Context
 	_, err := query.User.WithContext(ctx).Where(query.User.ID.Eq(userId)).Delete()
