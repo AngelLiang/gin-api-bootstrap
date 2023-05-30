@@ -181,7 +181,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/api.GetUserDetailOut"
+                                            "$ref": "#/definitions/serializer.GetUserDetailOut"
                                         }
                                     }
                                 }
@@ -235,7 +235,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/api.UserRecord"
+                                            "$ref": "#/definitions/serializer.UserRecord"
                                         }
                                     }
                                 }
@@ -292,52 +292,6 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "api.GetUserDetailOut": {
-            "type": "object",
-            "properties": {
-                "age": {
-                    "type": "integer"
-                },
-                "balance": {
-                    "type": "number"
-                },
-                "createdAt": {
-                    "type": "string"
-                },
-                "id": {
-                    "type": "integer"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "updatedAt": {
-                    "type": "string"
-                }
-            }
-        },
-        "api.UserRecord": {
-            "type": "object",
-            "properties": {
-                "age": {
-                    "type": "integer"
-                },
-                "balance": {
-                    "type": "number"
-                },
-                "createdAt": {
-                    "type": "string"
-                },
-                "id": {
-                    "type": "integer"
-                },
-                "name": {
-                    "type": "string"
-                },
-                "updatedAt": {
-                    "type": "string"
-                }
-            }
-        },
         "serializer.AddUserIn": {
             "type": "object",
             "properties": {
@@ -355,6 +309,29 @@ const docTemplate = `{
                 }
             }
         },
+        "serializer.GetUserDetailOut": {
+            "type": "object",
+            "properties": {
+                "age": {
+                    "type": "integer"
+                },
+                "balance": {
+                    "type": "number"
+                },
+                "createdAt": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "updatedAt": {
+                    "type": "string"
+                }
+            }
+        },
         "serializer.UpdateUserIn": {
             "type": "object",
             "properties": {
@@ -368,6 +345,29 @@ const docTemplate = `{
                 },
                 "name": {
                     "description": "姓名",
+                    "type": "string"
+                }
+            }
+        },
+        "serializer.UserRecord": {
+            "type": "object",
+            "properties": {
+                "age": {
+                    "type": "integer"
+                },
+                "balance": {
+                    "type": "number"
+                },
+                "createdAt": {
+                    "type": "string"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "updatedAt": {
                     "type": "string"
                 }
             }

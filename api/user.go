@@ -1,8 +1,8 @@
 package api
 
 import (
-	"fmt"
-	"time"
+	// "fmt"
+	// "time"
 	"net/http"
 	"github.com/gin-gonic/gin" // 导入 gin 框架
 
@@ -11,22 +11,6 @@ import (
 	"gin_api_bootstrap/util"
 )
 
-
-type UserRecord struct {
-	ID int64 `json:"id"`
-	Name string `json:"name"`
-	Age int64 `json:"age"`
-	Balance float64 `json:"balance"`
-	CreatedAt time.Time `json:"createdAt"`
-	UpdatedAt time.Time `json:"updatedAt"`
-}
-
-type UserListOut struct {
-	Current int `json:"current"`
-	Size int    `json:"size"`
-	Count int64  `json:"count"`
-	Records []UserRecord `json:"records"`
-}
 
 // @Summary 获取用户列表
 // @Schemes http
@@ -37,7 +21,7 @@ type UserListOut struct {
 // @Produce json
 // @Param current query int false "当前页数"
 // @Param size query int false "每页数量"
-// @Success 200 {object} util.Response{data=UserRecord}
+// @Success 200 {object} util.Response{data=serializer.UserRecord}
 // @Security ApiKeyAuth
 func ListUserApi(c *gin.Context) {
 	var p util.Pagination
@@ -54,13 +38,13 @@ func ListUserApi(c *gin.Context) {
 		return
 	}
 	// util.Log().Debug(userList)
-	out := UserListOut{
+	out := serializer.UserListOut{
 		Current: p.Page,
 		Size: p.PerPage,
 		Count: count,
 	}
 	for _, item := range userList {
-		record := UserRecord{
+		record := serializer.UserRecord{
 			ID: item.ID,
 			Name: item.Name,
 			Age: item.Age,
@@ -75,20 +59,6 @@ func ListUserApi(c *gin.Context) {
 	c.JSON(http.StatusOK, resp)
 }
 
-
-type GetUserDetailIn struct {
-	Id int `form:"id"`
-}
-
-type GetUserDetailOut struct {
-	ID int64 `json:"id"`
-	Name string `json:"name"`
-	Age int64 `json:"age"`
-	Balance float64 `json:"balance"`
-	CreatedAt time.Time `json:"createdAt"`
-	UpdatedAt time.Time `json:"updatedAt"`
-}
-
 // @Summary 获取用户详情
 // @Schemes http
 // @Description 获取用户详情
@@ -96,7 +66,7 @@ type GetUserDetailOut struct {
 // @Router /api/v1/user/detail [get]
 // @Accept json
 // @Produce json
-// @Success 200 {object} util.Response{data=GetUserDetailOut}
+// @Success 200 {object} util.Response{data=serializer.GetUserDetailOut}
 // @Security ApiKeyAuth
 // @Param id query int true "用户id"
 func GetUserDetailApi(c *gin.Context) {
@@ -114,8 +84,8 @@ func GetUserDetailApi(c *gin.Context) {
 		return
 	}
 
-	fmt.Println(user)
-	out := GetUserDetailOut{
+	util.Log().Debug(user)
+	out := serializer.GetUserDetailOut{
 		ID:user.ID,
 		Name:user.Name,
 		Age:user.Age,
@@ -127,17 +97,6 @@ func GetUserDetailApi(c *gin.Context) {
 	resp := util.MakeResponse(0, "操作成功", out)
 	c.JSON(http.StatusOK, resp)
 }
-
-
-// type AddUserIn struct {
-// 	// 姓名
-// 	Name string `json:"name"`
-// 	// 年龄
-// 	Age int64 `json:"age"`
-// 	// 余额
-// 	Balance float64 `json:"balance"`
-// }
-
 
 // @Summary 添加用户
 // @Schemes http

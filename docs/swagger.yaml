@@ -1,34 +1,4 @@
 definitions:
-  api.GetUserDetailOut:
-    properties:
-      age:
-        type: integer
-      balance:
-        type: number
-      createdAt:
-        type: string
-      id:
-        type: integer
-      name:
-        type: string
-      updatedAt:
-        type: string
-    type: object
-  api.UserRecord:
-    properties:
-      age:
-        type: integer
-      balance:
-        type: number
-      createdAt:
-        type: string
-      id:
-        type: integer
-      name:
-        type: string
-      updatedAt:
-        type: string
-    type: object
   serializer.AddUserIn:
     properties:
       age:
@@ -41,6 +11,21 @@ definitions:
         description: 姓名
         type: string
     type: object
+  serializer.GetUserDetailOut:
+    properties:
+      age:
+        type: integer
+      balance:
+        type: number
+      createdAt:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      updatedAt:
+        type: string
+    type: object
   serializer.UpdateUserIn:
     properties:
       age:
@@ -51,6 +36,21 @@ definitions:
         type: number
       name:
         description: 姓名
+        type: string
+    type: object
+  serializer.UserRecord:
+    properties:
+      age:
+        type: integer
+      balance:
+        type: number
+      createdAt:
+        type: string
+      id:
+        type: integer
+      name:
+        type: string
+      updatedAt:
         type: string
     type: object
   util.Response:
@@ -163,7 +163,7 @@ paths:
             - $ref: '#/definitions/util.Response'
             - properties:
                 data:
-                  $ref: '#/definitions/api.GetUserDetailOut'
+                  $ref: '#/definitions/serializer.GetUserDetailOut'
               type: object
       security:
       - ApiKeyAuth: []
@@ -194,7 +194,7 @@ paths:
             - $ref: '#/definitions/util.Response'
             - properties:
                 data:
-                  $ref: '#/definitions/api.UserRecord'
+                  $ref: '#/definitions/serializer.UserRecord'
               type: object
       security:
       - ApiKeyAuth: []

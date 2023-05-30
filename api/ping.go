@@ -16,8 +16,7 @@ import (
 // @Produce json
 // @Success 200 {object} util.Response
 func Ping(c *gin.Context) {
-	logger := util.Log()
-	logger.Debug("ping")
+	util.Log().Debug("ping")
 	resp := util.MakeResponse(0, "操作成功", gin.H{})
 	c.JSON(http.StatusOK, resp)
 }
