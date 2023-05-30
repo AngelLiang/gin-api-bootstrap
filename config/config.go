@@ -18,7 +18,6 @@ type T_Config struct {
 var Config T_Config
 
 func Init() {
-	godotenv.Load()
 	err := godotenv.Load()
 	if err != nil {
 		log.Fatal("Error loading .env file")

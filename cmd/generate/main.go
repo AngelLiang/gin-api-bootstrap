@@ -1,6 +1,7 @@
 package main
 
 import (
+	"os"
 	"fmt"
 	"strings"
 
@@ -8,11 +9,17 @@ import (
 	"gorm.io/gen"
 	"gorm.io/gen/field"
 	"gorm.io/gorm"
+
+	"github.com/joho/godotenv"
 )
 
-const MySQLDSN = "root:Bingo@123@(192.168.42.8:3306)/gin_demo?charset=utf8mb4&parseTime=True&loc=Local"
+// const MySQLDSN = "root:Bingo@123@(192.168.42.8:3306)/gin_demo?charset=utf8mb4&parseTime=True&loc=Local"
 
 func main() {
+
+	godotenv.Load()
+	MySQLDSN := os.Getenv("DBURL")
+	fmt.Printf("MySQLDSN:%v\r\n", MySQLDSN)
 
 	// 连接数据库
 	db, err := gorm.Open(mysql.Open(MySQLDSN))
