@@ -100,12 +100,6 @@ func AddUserApi(c *gin.Context) {
 		return
 	}
 
-	if isExist := service.UserIsExistByName(jsonIn.Name); isExist == true {
-		resp := util.MakeResponse(1, "存在相同的姓名", gin.H{})
-		c.JSON(http.StatusOK, resp)
-		return
-	}
-
 	err := service.AddUser(jsonIn)
 	if err != nil {
 		util.Log().Error(err)
@@ -147,22 +141,8 @@ func UpdateUserApi(c *gin.Context) {
 		return
 	}
 
-	if isExist := service.UserIsExistByNameNotId(jsonIn.Name, util.Str2Int64(userId)); isExist == true {
-		resp := util.MakeResponse(1, "存在相同的姓名", gin.H{})
-		c.JSON(http.StatusOK, resp)
-		return
-	}
-
-	// 获取对象
-	user, err := service.GetUserById(util.Str2Int64(userId))
-	if err != nil {
-		resp := util.MakeResponse(1, err.Error(), gin.H{})
-		c.JSON(http.StatusOK, resp)
-		return
-	}
-
 	// 更新数据
-	err = service.UpdateUser(*user, jsonIn)
+	err = service.UpdateUser(userId, jsonIn)
 	if err != nil {
 		resp := util.MakeResponse(1, err.Error(), gin.H{})
 		c.JSON(http.StatusOK, resp)

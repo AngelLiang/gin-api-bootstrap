@@ -3,7 +3,7 @@ package service
 import (
 	// "fmt"
 	// "net/http"
-	// "errors"
+	"errors"
 	// "github.com/gin-gonic/gin"
 	"gin_api_bootstrap/util"
 	"gin_api_bootstrap/serializer"
@@ -67,7 +67,11 @@ func UserIsExistByNameNotId(name string, id int64) bool {
 }
 
 // 添加用户
-func AddUser(in serializer.AddUserIn) (error) {
+func AddUser(in serializer.AddUserIn) error {
+	if isExist := UserIsExistByName(jsonIn.Name); isExist == true {
+		return errors.New("存在相同的姓名")
+	}
+
 	user := model.User{Name: in.Name, Age: in.Age, Balance: in.Balance}
 	ctx := query.DB.Statement.Context
 	err := query.User.WithContext(ctx).Create(&user)
@@ -75,7 +79,16 @@ func AddUser(in serializer.AddUserIn) (error) {
 }
 
 // 更新用户
-func UpdateUser(user model.User, in serializer.UpdateUserIn) error {
+func UpdateUser(userId int, in serializer.UpdateUserIn) error {
+	if isExist := UserIsExistByNameNotId(jsonIn.Name, util.Str2Int64(userId)); isExist == true {
+		return errors.New("存在相同的姓名")
+	}
+
+	user, err := service.GetUserById(util.Str2Int64(userId))
+	if err != nil {
+		return err
+	}
+
 	user.Name = in.Name
 	user.Age = in.Age
 	user.Balance = in.Balance
