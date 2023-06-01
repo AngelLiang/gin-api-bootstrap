@@ -21,7 +21,7 @@ import (
 // @Produce json
 // @Param current query int false "当前页数"
 // @Param size query int false "每页数量"
-// @Success 200 {object} util.Response{data=serializer.UserRecord}
+// @Success 200 {object} util.Response{data=serializer.UserListOut}
 // @Security ApiKeyAuth
 func ListUserApi(c *gin.Context) {
 	var p util.Pagination
@@ -38,23 +38,7 @@ func ListUserApi(c *gin.Context) {
 		return
 	}
 	// util.Log().Debug(userList)
-	out := serializer.UserListOut{
-		Current: p.Page,
-		Size: p.PerPage,
-		Count: count,
-	}
-	for _, item := range userList {
-		record := serializer.UserRecord{
-			ID: item.ID,
-			Name: item.Name,
-			Age: item.Age,
-			Balance: item.Balance,
-			CreatedAt: item.CreatedAt,
-			UpdatedAt: item.UpdatedAt,
-		}
-		out.Records = append(out.Records, record)
-	}
-
+	out := serializer.BuildUserListOut(p.Page, p.PerPage, count, userList)
 	resp := util.MakeResponse(0, "操作成功", out)
 	c.JSON(http.StatusOK, resp)
 }

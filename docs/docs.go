@@ -235,7 +235,7 @@ const docTemplate = `{
                                     "type": "object",
                                     "properties": {
                                         "data": {
-                                            "$ref": "#/definitions/serializer.UserRecord"
+                                            "$ref": "#/definitions/serializer.UserListOut"
                                         }
                                     }
                                 }
@@ -349,7 +349,27 @@ const docTemplate = `{
                 }
             }
         },
-        "serializer.UserRecord": {
+        "serializer.UserListOut": {
+            "type": "object",
+            "properties": {
+                "count": {
+                    "type": "integer"
+                },
+                "current": {
+                    "type": "integer"
+                },
+                "records": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/serializer.UserListRecord"
+                    }
+                },
+                "size": {
+                    "type": "integer"
+                }
+            }
+        },
+        "serializer.UserListRecord": {
             "type": "object",
             "properties": {
                 "age": {

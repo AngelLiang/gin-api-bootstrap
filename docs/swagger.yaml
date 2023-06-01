@@ -38,7 +38,20 @@ definitions:
         description: 姓名
         type: string
     type: object
-  serializer.UserRecord:
+  serializer.UserListOut:
+    properties:
+      count:
+        type: integer
+      current:
+        type: integer
+      records:
+        items:
+          $ref: '#/definitions/serializer.UserListRecord'
+        type: array
+      size:
+        type: integer
+    type: object
+  serializer.UserListRecord:
     properties:
       age:
         type: integer
@@ -194,7 +207,7 @@ paths:
             - $ref: '#/definitions/util.Response'
             - properties:
                 data:
-                  $ref: '#/definitions/serializer.UserRecord'
+                  $ref: '#/definitions/serializer.UserListOut'
               type: object
       security:
       - ApiKeyAuth: []

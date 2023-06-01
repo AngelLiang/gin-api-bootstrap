@@ -1,10 +1,11 @@
 package serializer
 
 import (
+	"gin_api_bootstrap/model"
 	"time"
 )
 
-type UserRecord struct {
+type UserListRecord struct {
 	ID int64 `json:"id"`
 	Name string `json:"name"`
 	Age int64 `json:"age"`
@@ -14,10 +15,30 @@ type UserRecord struct {
 }
 
 type UserListOut struct {
-	Current int `json:"current"`
-	Size int    `json:"size"`
-	Count int64  `json:"count"`
-	Records []UserRecord `json:"records"`
+	PaginationOut
+	Records []UserListRecord `json:"records"`
+}
+
+func BuildUserListOut(page int, perPage int, count int64, userList []*model.User) *UserListOut {
+	out := UserListOut{
+		PaginationOut: PaginationOut{
+			Current: page,
+			Size:    perPage,
+			Count:   count,
+		},
+	}
+	for _, item := range userList {
+		record := UserListRecord{
+			ID: item.ID,
+			Name: item.Name,
+			Age: item.Age,
+			Balance: item.Balance,
+			CreatedAt: item.CreatedAt,
+			UpdatedAt: item.UpdatedAt,
+		}
+		out.Records = append(out.Records, record)
+	}
+	return &out
 }
 
 type GetUserDetailIn struct {
